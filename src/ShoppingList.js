@@ -4,37 +4,60 @@ import { API_BASE_URL, API_USERNAME, API_PASSWORD } from './config';
 
 const ShoppingList = () => {
   const [shoppingLists, setShoppingLists] = useState([]);
+  const [items, setItems] = useState([]);
+  const [expandedList, setExpandedList] = useState(null); 
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchShoppingLists = async () => {
+    const fetchShoppingListsAndItems = async () => {
       try {
-        const username = 'cUser';
-        const password = 'customPassword';
+        const username = API_USERNAME;
+        const password = API_PASSWORD;
         const authHeader = 'Basic ' + btoa(`${username}:${password}`);
 
-        const response = await axios.get(`${API_BASE_URL}/lists`, {
-          headers: {
-            'Authorization': authHeader
-          },
-          withCredentials: true
+        const listsResponse = await axios.get(`${API_BASE_URL}/lists`, {
+          headers: { Authorization: authHeader },
         });
-        setShoppingLists(response.data);
+        setShoppingLists(listsResponse.data);
+
+        const itemsResponse = await axios.get(`${API_BASE_URL}/items`, {
+          headers: { Authorization: authHeader },
+        });
+        setItems(itemsResponse.data);
       } catch (error) {
-        console.error('Error loading lists:', error);
-        setError('Error loading lists')
+        console.error('Error loading lists or items:', error);
+        setError('Error loading lists or items');
       }
     };
-    fetchShoppingLists();
+    
+    fetchShoppingListsAndItems();
   }, []);
+
+  const handleExpand = (listId) => {
+    setExpandedList(listId === expandedList ? null : listId);
+  };
 
   return (
     <div>
       <h2>My Shopping List</h2>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
       <ul>
-        {shoppingLists.map(list => ( 
+       {shoppingLists.map(list => (
           <li key={list.id}>
-            {list.name}
+            <div onClick={() => handleExpand(list.id)}>
+              <strong>{list.name}</strong>
+            </div>
+            {expandedList === list.id && (
+              <ul>
+                {items
+                  .filter(item => item.listId === list.id)
+                  .map(item => (
+                    <li key={item.id}>
+                      {item.name} - {item.quantity} {item.status ? "(Bought)" : "(Not Bought)"}
+                    </li>
+                  ))}
+              </ul>
+            )}
           </li>
         ))}
       </ul>
