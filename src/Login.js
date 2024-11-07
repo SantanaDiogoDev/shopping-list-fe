@@ -12,11 +12,20 @@ const Login = ({ onLogin }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${API_BASE_URL}/login`, { emailOrName, password });
-      const { token, userId } = response.data;
-      
+      const isEmail = emailOrName.includes('@');
+      const loginData = {
+        [isEmail ? 'email' : 'name']: emailOrName,
+        password: password
+      };
+
+      console.log("Dados de login enviados:", loginData);
+
+      const response = await axios.post(`${API_BASE_URL}/auth/login`, loginData);
+      const { token } = response.data;
+
       Cookies.set('token', token);
-      Cookies.set('userId', userId);
+
+      console.log("Token:", token);
       
       onLogin();  //call the callback funtion to redirect before the login
     } catch (error) {
