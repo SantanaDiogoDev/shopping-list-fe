@@ -1,16 +1,21 @@
-// Login.js
 import React, { useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { API_BASE_URL } from './config';
+import { useAuth } from './contexts/AuthContext';
 
-const Login = ({ onLogin }) => {
+const Login = () => {
+  const { login } = useAuth();
   const [emailOrName, setEmailOrName] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError(null)
+
     try {
       const isEmail = emailOrName.includes('@');
       const loginData = {
@@ -21,11 +26,18 @@ const Login = ({ onLogin }) => {
       const response = await axios.post(`${API_BASE_URL}/auth/login`, loginData);
       const { token } = response.data;
 
-      Cookies.set('token', token);
+      Cookies.set('token', token, { secure: true, sameSite: 'Strict'});
       
-      onLogin();  //call the callback funtion to redirect before the login
+      login(token);
+      
     } catch (error) {
-      setError('Login failed. Please check your credentials.');
+      if (error.response && error.response.status === 401){
+        setError('Invalid credentials.')
+      } else {
+        setError('Login failed. Please try again later.');
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -35,7 +47,7 @@ const Login = ({ onLogin }) => {
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <input type="text" value={emailOrName} onChange={(e) => setEmailOrName(e.target.value)} placeholder="Email/Name" required />
       <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
-      <button type="submit">Login</button>
+      <button type="submit" disabled={loading}> {loading ? 'Logging in...' : 'Login'}</button>
     </form>
   );
 };

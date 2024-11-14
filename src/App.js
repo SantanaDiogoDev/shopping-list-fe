@@ -1,30 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import NavBar from './NavBar';
 import ShoppingList from './ShoppingList';
-import { Navigate } from 'react-router-dom';
 import Login from './Login';
-import Cookies from 'js-cookie';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { useAuth } from './contexts/AuthContext';
 
 function App() {
 
-  const [isAuthenticated, setIsAuthenticated] = useState(!!Cookies.get('token'));
-
-  const handleLogin = () => {
-    setIsAuthenticated(true);
-  };
+  const { isAuthenticated } = useAuth();
 
   return (
-    <Router>
       <div className="App">
         <NavBar />
         <Routes>
         <Route path="/" element={isAuthenticated ? <ShoppingList /> : <Navigate to="/login" />} />
-        <Route path="/login" element={<Login onLogin={handleLogin} />} />
+        <Route path="/login" element={isAuthenticated ? <Navigate to="/" /> : <Login />} />
         </Routes>
       </div>
-    </Router>
   );
 }
 

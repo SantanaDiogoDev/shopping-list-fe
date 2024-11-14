@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { API_BASE_URL, API_USERNAME, API_PASSWORD } from './config';
+import { API_BASE_URL } from './config';
+import Cookies from 'js-cookie';
 
 const ShoppingList = () => {
   const [shoppingLists, setShoppingLists] = useState([]);
@@ -11,9 +12,13 @@ const ShoppingList = () => {
   useEffect(() => {
     const fetchShoppingListsAndItems = async () => {
       try {
-        const username = API_USERNAME;
-        const password = API_PASSWORD;
-        const authHeader = 'Basic ' + btoa(`${username}:${password}`);
+        const token = Cookies.get('token');
+        if (!token) {
+          setError('User is not authenticated');
+          return;
+        }
+
+        const authHeader = `Bearer ${token}`;
 
         const listsResponse = await axios.get(`${API_BASE_URL}/lists`, {
           headers: { Authorization: authHeader },
