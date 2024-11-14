@@ -18,14 +18,10 @@ const Login = ({ onLogin }) => {
         password: password
       };
 
-      console.log("Dados de login enviados:", loginData);
-
       const response = await axios.post(`${API_BASE_URL}/auth/login`, loginData);
       const { token } = response.data;
 
       Cookies.set('token', token);
-
-      console.log("Token:", token);
       
       onLogin();  //call the callback funtion to redirect before the login
     } catch (error) {
