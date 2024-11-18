@@ -28,8 +28,8 @@ const Login = () => {
 
       Cookies.set('token', token, { secure: true, sameSite: 'Strict'});
       
-      login(token);
-      
+      login(token, emailOrName);
+
     } catch (error) {
       if (error.response && error.response.status === 401){
         setError('Invalid credentials.')
