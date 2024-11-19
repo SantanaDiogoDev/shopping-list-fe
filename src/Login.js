@@ -3,6 +3,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { API_BASE_URL } from './config';
 import { useAuth } from './contexts/AuthContext';
+import './Login.css';
 
 const Login = () => {
   const { login } = useAuth();
@@ -42,13 +43,15 @@ const Login = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Login</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <input type="text" value={emailOrName} onChange={(e) => setEmailOrName(e.target.value)} placeholder="Email/Name" required />
-      <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
-      <button type="submit" disabled={loading}> {loading ? 'Logging in...' : 'Login'}</button>
-    </form>
+    <div className="login-container">
+      <form onSubmit={handleSubmit}>
+        <h2>Login</h2>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        <input type="text" value={emailOrName} onChange={(e) => setEmailOrName(e.target.value)} placeholder="Email/Name" required />
+        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
+        <button type="submit" disabled={loading}> {loading ? 'Logging in...' : 'Login'}</button>
+      </form>
+    </div>
   );
 };
 

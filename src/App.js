@@ -6,17 +6,23 @@ import Login from './Login';
 import { useAuth } from './contexts/AuthContext';
 
 function App() {
-
   const { isAuthenticated } = useAuth();
 
   return (
-      <div className="App">
-        <NavBar />
+    <div className="App">
+      <NavBar />
+      <div style={{ paddingTop: '70px' }}>
         <Routes>
-        <Route path="/" element={isAuthenticated ? <ShoppingList /> : <Navigate to="/login" />} />
-        <Route path="/login" element={isAuthenticated ? <Navigate to="/" /> : <Login />} />
+          <Route
+            path="/"
+            element={
+              isAuthenticated ? <ShoppingList /> : <Navigate to="/login" />
+            }
+          />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </div>
+    </div>
   );
 }
 

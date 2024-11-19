@@ -28,6 +28,26 @@
   color: #61dafb;
 }
 
+body {
+  padding-top: 70px;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%; 
+  z-index: 1030; 
+}
+
+.navbar-brand {
+  font-weight: bold;
+}
+
+.navbar .nav-link {
+  font-size: 16px;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

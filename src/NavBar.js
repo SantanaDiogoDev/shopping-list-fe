@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
 
 const NavBar = () => {
-
   const { isAuthenticated, username, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -14,20 +13,28 @@ const NavBar = () => {
   };
 
   return (
-    <Navbar bg="light" expand="lg">
-      <Navbar.Brand as={Link} to="/">My Shopping List</Navbar.Brand>
+    <Navbar bg="light" expand="lg" fixed="top" className="shadow px-3">
+      <Navbar.Brand as={Link} to="/" className="fw-bold">
+        My Shopping List
+      </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse className="justify-content-end">
-      <Nav>
-          {isAuthenticated ? (
-            <>
-              <Nav.Link as={Link} to="#">{username || "User"}</Nav.Link>
-              <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
-            </>
-          ) : (
-            <Nav.Link as={Link} to="/login">Login</Nav.Link>
-          )}
-        </Nav>
+      <Navbar.Collapse id="basic-navbar-nav">
+      <Nav className="ms-auto">
+        {isAuthenticated ? (
+          <>
+            <Nav.Link as={Link} to="#" className="fw-bold">
+             {username}
+            </Nav.Link>
+            <Nav.Link onClick={handleLogout} className="fw-bold">
+              Logout
+            </Nav.Link>
+          </>
+        ) : (
+          <Nav.Link as={Link} to="/login" className="fw-bold">
+            Login
+          </Nav.Link>
+        )}
+      </Nav>
       </Navbar.Collapse>
     </Navbar>
   );
