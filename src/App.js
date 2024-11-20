@@ -13,13 +13,8 @@ function App() {
       <NavBar />
       <div style={{ paddingTop: '70px' }}>
         <Routes>
-          <Route
-            path="/"
-            element={
-              isAuthenticated ? <ShoppingList /> : <Navigate to="/login" />
-            }
-          />
-          <Route path="/login" element={<Login />} />
+        <Route path="/" element={isAuthenticated ? <ShoppingList /> : <Navigate to="/login" />} />
+        <Route path="/login" element={isAuthenticated ? <Navigate to="/" /> : <Login />} />
         </Routes>
       </div>
     </div>
