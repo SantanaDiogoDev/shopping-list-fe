@@ -14,7 +14,6 @@
 }
 
 .App-header {
-  background-color: #282c34;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -37,15 +36,7 @@ body {
   top: 0;
   left: 0;
   width: 100%; 
-  z-index: 1030; 
-}
-
-.navbar-brand {
-  font-weight: bold;
-}
-
-.navbar .nav-link {
-  font-size: 16px;
+  background-color: black;
 }
 
 @keyframes App-logo-spin {

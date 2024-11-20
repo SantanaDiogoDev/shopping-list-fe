@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import NavBar from './NavBar';
 import ShoppingList from './ShoppingList';
 import Login from './Login';
@@ -9,15 +9,15 @@ function App() {
   const { isAuthenticated } = useAuth();
 
   return (
+    <BrowserRouter>
     <div className="App">
       <NavBar />
-      <div style={{ paddingTop: '70px' }}>
         <Routes>
-        <Route path="/" element={isAuthenticated ? <ShoppingList /> : <Navigate to="/login" />} />
-        <Route path="/login" element={isAuthenticated ? <Navigate to="/" /> : <Login />} />
+          <Route path="/" element={isAuthenticated ? <ShoppingList /> : <Navigate to="/login" />} />
+          <Route path="/login" element={isAuthenticated ? <Navigate to="/" /> : <Login />} />
         </Routes>
-      </div>
     </div>
+    </BrowserRouter>
   );
 }
 

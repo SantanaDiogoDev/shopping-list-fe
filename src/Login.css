@@ -9,13 +9,6 @@ body {
     align-items: center;
   }
 
-  .navbar-container {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1000;
-  }
-
   .page-content {
     flex: 1;
     display: flex;
