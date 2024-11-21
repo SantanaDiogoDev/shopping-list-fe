@@ -1,10 +1,9 @@
 import React from 'react';
-import { Navbar, Nav } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
-import './NavBar.css';
+import './Header.css';
 
-const NavBar = () => {
+const Header = () => {
   const { isAuthenticated, username, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -14,7 +13,7 @@ const NavBar = () => {
   };
 
   return (
-    <Navbar>
+    <header>
       <Link className='title' to="/">My Shopping List</Link>
       {isAuthenticated ? (
         <>
@@ -22,12 +21,10 @@ const NavBar = () => {
           <Link className="login-logout" onClick={handleLogout}> Logout </Link>
         </>
         ) : (
-          <Nav.Link as={Link} to="/login" className="login-logout">
-            Login
-          </Nav.Link>
+          <Link className="login-logout"> Login </Link>
         )}
-    </Navbar>
+    </header>
   );
 };
 
-export default NavBar;
+export default Header;

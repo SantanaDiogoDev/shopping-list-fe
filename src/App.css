@@ -31,13 +31,7 @@ body {
   padding-top: 70px;
 }
 
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%; 
-  background-color: black;
-}
+
 
 @keyframes App-logo-spin {
   from {

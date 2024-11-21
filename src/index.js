@@ -4,7 +4,7 @@ import App from './App';
 import { AuthProvider } from './contexts/AuthContext';
 
 import './index.css';
-import './NavBar.css';
+import './Header.css';
 import './App.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
